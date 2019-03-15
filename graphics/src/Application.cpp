@@ -1,30 +1,25 @@
-#include <gl_core_4_4.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <Gizmos.h>
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
 #include "Application.h"
 
 using glm::vec3;
 using glm::vec4;
 using glm::mat4;
+GLFWwindow* window = glfwCreateWindow(1280, 720, "Computer Graphics", nullptr, nullptr);
 
-int main()
+Application::Application()
 {
-	Application* app = new Application();
-	if (app->startup() == true)
-	{
-
-	}
+}
 
 
-	if (glfwInit() == false)
+Application::~Application()
+{
+}
+
+void Application::startup()
+{	if (glfwInit() == false)
 	{
 		return -1;
 	}
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "Computer Graphics", nullptr, nullptr);
-	
+
 
 
 	if (window == nullptr)
@@ -41,8 +36,15 @@ int main()
 		glfwTerminate();
 		return -3;
 	}
+}
 
-	aie::Gizmos::create(1000,1000,1000,1000);
+void Application::update()
+{
+}
+
+void Application::draw()
+{
+	aie::Gizmos::create(1000, 1000, 1000, 1000);
 
 	mat4 view = glm::lookAt(vec3(10, 10, 10), vec3(0), vec3(0, 1, 0));
 	mat4 projection = glm::perspective(glm::pi<float>() * 0.25f, 16 / 9.f, 0.1f, 1000.f);
@@ -70,11 +72,11 @@ int main()
 		for (int i = 0; i < 21; ++i)
 		{
 			aie::Gizmos::addLine(vec3(-10 + i, 0, 10),
-								 vec3(-10 + i, 0, -10),
-								 i == 10 ? white : black);
+				vec3(-10 + i, 0, -10),
+				i == 10 ? white : black);
 			aie::Gizmos::addLine(vec3(10, 0, -10 + i),
-								 vec3(-10, 0, -10 + i),
-								 i == 10 ? white : black);
+				vec3(-10, 0, -10 + i),
+				i == 10 ? white : black);
 
 		}
 		aie::Gizmos::addSphere(vec3(1, 2.5f, 1), 1, 7, 7, vec4(1, 0, 0, 1));
@@ -84,11 +86,24 @@ int main()
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-	}
+}
 
+void Application::shutdown()
+{
 	aie::Gizmos::destroy();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	return 0;
+}
+
+
+
+int main()
+{
+
+
+
+
+
+	}
 }
